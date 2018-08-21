@@ -98,15 +98,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaDBTest.cs" />
+    <Compile Include="Controllers\UserControllerTest.cs" />
+    <Compile Include="PartnerDBTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\ValuesControllerTest.cs" />
+    <Compile Include="UserDBTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj">
+      <Project>{04bd60a5-7ce8-44e9-b422-7cfad8fa93db}</Project>
+      <Name>Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{a05b0365-e052-4653-8de8-c3a15d90025e}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{4fc9f302-147f-44dd-9f8a-ad216b1394c3}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GamePlayersReturnSystemWebAPI\GamePlayersReturnSystemWebAPI.csproj">
+      <Project>{7015A79D-C1BA-46CE-8B5E-1A42B611A6EE}</Project>
+      <Name>GamePlayersReturnSystemWebAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
