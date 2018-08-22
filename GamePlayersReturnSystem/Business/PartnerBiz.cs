@@ -12,19 +12,29 @@ namespace Business
     {
         private static PartnerDBProvider provider = new PartnerDBProvider();
 
+        private static void SetPartnerCache() {
+            DataCache.Partners = GetAll(new Partner()).ToList();
+        }
         public static Partner Add(Partner req)
         {
-            return provider.DB.Add(req);
+            
+            var result = provider.DB.Add(req);
+            SetPartnerCache();
+            return result;
         }
 
         public static Partner Update(Partner req)
         {
-            return provider.DB.Update(req);
+            var result = provider.DB.Update(req);
+            SetPartnerCache();
+            return result;
         }
 
         public static bool Delete(int id)
         {
-            return provider.DB.Delete(new Partner { Id = id });
+            var result = provider.DB.Delete(new Partner { Id = id });
+            SetPartnerCache();
+            return result;
         }
 
         public static Partner GetById(int id)
