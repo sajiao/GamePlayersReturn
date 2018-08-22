@@ -15,10 +15,13 @@ namespace Data
   public  class UserDB : IUser
     {
         public User Add<User>(User req) {
-    
-            var result = SqlHelper.Exucute(Const.UserInsertSql, req);
-            if (result > 0)
-                return GetById(req);
+            User queryResult = GetById(req);
+            if (queryResult == null) {
+                var result = SqlHelper.Exucute(Const.UserInsertSql, req);
+                if (result > 0)
+                    return GetById(req);
+            }
+          
             return req;
         }
 
@@ -43,8 +46,8 @@ namespace Data
             return SqlHelper.Query<User>(Const.UserGetAllSql, req);
         }
 
-        public User Login(User req) {
-            return SqlHelper.QueryFirst<User>(Const.UserLoginSql, req);
+        public  User Login(User req) {
+            return  SqlHelper.QueryFirst<User>(Const.UserLoginSql, req);
         }
     }
 }

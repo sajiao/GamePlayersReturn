@@ -17,9 +17,9 @@ namespace Business
             return provider.DB.Add(req);
         }
 
-        public static UserLoginHistory GetById(int id)
+        public static UserLoginHistory GetById(string id)
         {
-            return provider.DB.GetById(new UserLoginHistory { Id = id });
+            return provider.DB.GetById(new UserLoginHistory { PlayerId = id });
         }
 
         public static IEnumerable<UserLoginHistory> GetAll(UserLoginHistory req)

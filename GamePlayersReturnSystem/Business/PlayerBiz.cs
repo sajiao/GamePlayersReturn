@@ -27,9 +27,9 @@ namespace Business
             return provider.DB.Delete(new Player { Id = id });
         }
 
-        public static Player GetById(string userId)
+        public static Player GetById(string userId, int areaId)
         {
-            return provider.DB.GetById(new Player { UserId = userId });
+            return provider.DB.GetById(new Player { UserId = userId, AreaId = areaId });
         }
 
         public static IEnumerable<Player> GetAll(Player req)

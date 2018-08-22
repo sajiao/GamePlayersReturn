@@ -17,9 +17,9 @@ namespace Business
             return provider.DB.Add(req);
         }
 
-        public static PlayerActivityLog GetById(int id)
+        public static PlayerActivityLog GetById(string playerId, int partnerId)
         {
-            return provider.DB.GetById(new PlayerActivityLog { Id = id });
+            return provider.DB.GetById(new PlayerActivityLog { PlayerId = playerId , PartnerId = partnerId});
         }
 
         public static IEnumerable<PlayerActivityLog> GetAll(PlayerActivityLog req)

@@ -24,7 +24,8 @@ namespace GamePlayersReturnSystemWebAPI.Tests
                 BeginTime = DateTime.Now,
                 EndTime = DateTime.Now.AddMonths(6),
                 CreatedTime = DateTime.Now,
-                ConditionJson = JsonConvert.SerializeObject(new PartnerCondition() { Day = 20})
+                ConditionJson = JsonConvert.SerializeObject(new PartnerCondition() { Day = 0}),
+                ServiceName= "PlayerReturn"
             });
 
             Assert.IsNotNull(result);

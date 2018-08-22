@@ -24,4 +24,17 @@ namespace Entity
 
         public DateTime UpdatedTime { get; set; }
     }
+
+    public class UserLoginResponse {
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string NickName { get; set; }
+
+        public int AreaId { get; set; }
+
+        public Dictionary<string, bool> Partners { get; set; }
+
+    }
 }

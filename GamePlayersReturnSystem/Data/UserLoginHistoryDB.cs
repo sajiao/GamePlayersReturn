@@ -13,8 +13,7 @@ namespace Data
         {
 
             var result = SqlHelper.Exucute(Const.UserLoginHistoryInsertSql, req);
-            if (result > 0)
-                return GetById(req);
+            
             return req;
         }
 

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Area.cs" />
     <Compile Include="Partner.cs" />
+    <Compile Include="PartnerServiceParams.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerActivityLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

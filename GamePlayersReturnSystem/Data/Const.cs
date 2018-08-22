@@ -20,7 +20,7 @@ namespace Data
 
         public const string UserDeleteSql = "Delete from User where Id =@Id";
 
-        public const string UserLoginSql = "Select Id,Name,NickName, Email,CreatedTime,UpdatedTime from User where Id = @Id and Password=@Password";
+        public const string UserLoginSql = "Select Id,Name,NickName, Email,CreatedTime,UpdatedTime from User where Name = @Name and Password=@Password";
 
 
         public const string AreaInsertSql = "Insert into Area(Id,AreaName,CreatedTime) values (@Id,@AreaName,@CreatedTime)";
@@ -34,20 +34,20 @@ namespace Data
         public const string AreaDeleteSql = "Delete from Area where Id =@Id";
 
 
-        public const string PartnerInsertSql = "Insert into Partner(Id,Name,Description, BeginTime, EndTime,ConditionJson,CreatedBy,CreatedTime) values (@Id,@Name,@Description, @BeginTime, @EndTime,@ConditionJson,@CreatedBy,@CreatedTime)";
+        public const string PartnerInsertSql = "Insert into Partner(Id,Name,Description, BeginTime, EndTime,ConditionJson,CreatedBy,CreatedTime,ServiceName) values (@Id,@Name,@Description, @BeginTime, @EndTime,@ConditionJson,@CreatedBy,@CreatedTime,@ServiceName)";
 
-        public const string PartnerGetByIdSql = "Select Id,Name,Description, BeginTime, EndTime,ConditionJson,CreatedBy,CreatedTime from Partner where Id = @Id";
+        public const string PartnerGetByIdSql = "Select Id,Name,Description, BeginTime, EndTime,ConditionJson,CreatedBy,CreatedTime,ServiceName from Partner where Id = @Id";
 
-        public const string PartnerGetAllSql = "Select Id,Name,Description, BeginTime, EndTime,ConditionJson,CreatedBy,CreatedTime from Partner WHERE beginTime < NOW() AND EndTime > NOW()";
+        public const string PartnerGetAllSql = "Select Id,Name,Description, BeginTime, EndTime,ConditionJson,CreatedBy,CreatedTime,ServiceName from Partner WHERE beginTime < NOW() AND EndTime > NOW()";
 
-        public const string PartnerUpdateSql = "Update Partner Set Id =@Id,Name=@Name,Description =@Description, BeginTime=@BeginTime, EndTime=@EndTime,ConditionJson=@ConditionJson where Id =@Id";
+        public const string PartnerUpdateSql = "Update Partner Set Id =@Id,Name=@Name,Description =@Description, BeginTime=@BeginTime, EndTime=@EndTime,ConditionJson=@ConditionJson,ServiceName=@ServiceName where Id =@Id";
 
         public const string PartnerDeleteSql = "Delete from Partner where Id =@Id";
 
 
         public const string PlayerInsertSql = "Insert into Player(Id,UserId,AreaId, CreatedTime) values (@Id,@UserId,@AreaId, @CreatedTime)";
 
-        public const string PlayerGetByIdSql = "Select Id,UserId,AreaId, CreatedTime from Player where UserId = @UserId";
+        public const string PlayerGetByIdSql = "Select Id,UserId,AreaId, CreatedTime from Player where UserId = @UserId and AreaId = @AreaId";
 
         public const string PlayerGetAllSql = "Select Id,UserId,AreaId, CreatedTime from Player";
 
@@ -58,7 +58,7 @@ namespace Data
 
         public const string PlayerActivityLogInsertSql = "Insert into PlayerActivityLog(Id,PlayerId,TakePartInTime,PartnerId) values (@Id,@PlayerId, @TakePartInTime,@PartnerId)";
 
-        public const string PlayerActivityLogGetByIdSql = "Select Id,PlayerId,TakePartInTime,PartnerId from PlayerActivityLog where Id = @Id";
+        public const string PlayerActivityLogGetByIdSql = "Select Id,PlayerId,TakePartInTime,PartnerId from PlayerActivityLog where PlayerId = @PlayerId and PartnerId =@PartnerId";
 
         public const string PlayerActivityLogGetAllSql = "Select Id,PlayerId,TakePartInTime,PartnerId from PlayerActivityLog";
 

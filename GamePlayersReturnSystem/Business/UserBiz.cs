@@ -1,4 +1,5 @@
-﻿using DataProvider;
+﻿using Business.PartnerService;
+using DataProvider;
 using Entity;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,6 @@ namespace Business
    public class UserBiz
     {
         private static UserDBProvider provider = new UserDBProvider();
-        private static UserLoginHistoryDBProvider loginHistoryProvider = new UserLoginHistoryDBProvider();
-        private static PlayerDBProvider playerProvider = new PlayerDBProvider();
 
         public static User Add(User req) {
            return provider.DB.Add(req);
@@ -38,26 +37,69 @@ namespace Business
             return  provider.DB.GetAll(req);
         }
 
-        public static User Login(User req) {
+        public static async Task<UserLoginResponse> Login(User req) {
             var result = provider.DB.Login(req);
+            var loginResult = new UserLoginResponse();
             if (result != null && result.Id != null) {
-                var player = playerProvider.DB.GetById(new Player() { UserId= result.Id });
+                //获取所在区
+                var player = PlayerBiz.GetById(result.Id,req.AreaId);
                 if (player == null || player.Id == null) {
-                    player = playerProvider.DB.Add(new Player() { UserId = result.Id, AreaId = result.AreaId, CreatedTime = DateTime.Now });
+                    //该用户在该区没有找到记录，新增加一条
+                    player = PlayerBiz.Add(new Player() { Id = Guid.NewGuid().ToString(), UserId = result.Id, AreaId = req.AreaId, CreatedTime = DateTime.Now });
                 }
                 if (DataCache.Partners.Count > 0) {
-                    var lastLogin = loginHistoryProvider.DB.GetById(new UserLoginHistory() { PlayerId = player.Id });
-                    if (lastLogin == null || DateTime.Now.Subtract(lastLogin.LoginTime).Days > 20)
+                    //获取上一次用户登陆，包含区域
+                    var lastLogin =  UserLoginHistoryBiz.GetById(player.Id);
+                    if (lastLogin != null)
                     {
-                        //join 
+                        DataCache.AddUserLastLoginLog(lastLogin);
                     }
                 }
+                var param = new PartnerServiceParams()
+                {
+                    AreaId = req.AreaId,
+                    UserId = result.Id,
+                    PlayerId = player.Id
+                };
+                loginResult.Id = result.Id;
+                loginResult.Name = result.Name;
+                loginResult.NickName = result.NickName;
+                loginResult.AreaId = req.AreaId;
+               // loginResult.Partners = CheckService(param);
                
-                loginHistoryProvider.DB.Add(new UserLoginHistory() { UserId = result.Id, PlayerId = player.Id, AreaId = result.AreaId, LoginTime = DateTime.Now });
-
-               
+                UserLoginHistoryBiz.Add(new UserLoginHistory() { UserId = result.Id, PlayerId = player.Id, AreaId = req.AreaId, LoginTime = DateTime.Now });
             }
-            return result;
+            return loginResult;
+        }
+
+        private static Dictionary<string, bool> CheckService(PartnerServiceParams param) {
+            Dictionary<string, bool> serviceDict = null;
+            if (DataCache.Partners != null && DataCache.Partners.Count > 0)
+            {
+                serviceDict = new Dictionary<string, bool>(DataCache.Partners.Count);
+                //并行检查活动
+                Parallel.ForEach(DataCache.Partners, p => {
+                    param.Obj = p;
+                    param.PartnerId = p.Id;
+                    var service = PartnerServiceFactory.CreatePayService(p.ServiceName);
+
+                    if (service != null)
+                    {
+                        var result = service.IsCanJoin(param);
+                        serviceDict.Add(p.Name, result);
+                        //
+                        if (result) {
+                            service.Join(param);
+                        }
+                    }
+                    else
+                    {
+                        serviceDict.Add(p.Name, false);
+                    }
+                });
+            }
+
+            return serviceDict;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Entity
 
         public string ConditionJson { get; set; }
 
+        public string ServiceName { get; set; }
+
         public string CreatedBy { get; set; }
 
         public DateTime CreatedTime { get; set; }

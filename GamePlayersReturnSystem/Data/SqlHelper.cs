@@ -32,12 +32,14 @@ namespace Data
         }
 
         public static T QueryFirst<T>(string sql, T req) {
-            T result;
+            T result = default(T);
             try
             {
                 using (IDbConnection conn = new MySqlConnection(Const.ConnString))
                 {
-                    result = conn.QueryFirst<T>(sql, req);
+                    var queryResult = conn.Query<T>(sql, req);
+                    if (queryResult != null && queryResult.Count() > 0)
+                        result = queryResult.First();
                 }
             }
             catch (Exception ex)
